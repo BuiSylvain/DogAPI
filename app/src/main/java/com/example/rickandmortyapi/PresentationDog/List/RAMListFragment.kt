@@ -42,7 +42,7 @@ class RAMListFragment : Fragment() {
        recyclerView =view.findViewById(R.id.ram_recyclerview)
 
         recyclerView.apply {
-            layoutManager = this@RAMListFragment.layoutManager
+            layoutManager = LinearLayoutManager(context)
             adapter= this@RAMListFragment.adapter
         }
 

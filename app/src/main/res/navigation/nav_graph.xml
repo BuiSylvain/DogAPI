@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/RAMDetailFragment"
-        android:name="com.example.rickandmortyapi.SecondFragment"
+        android:name="com.example.rickandmortyapi.PresentationDog.List.detail.RAMDetailFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_ram_detail">
 
         <action
             android:id="@+id/navigateToRAMDetailFragment"
