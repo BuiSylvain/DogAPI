@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapi.PresentationDog.List.api.RAMApi
-import com.example.rickandmortyapi.PresentationDog.List.api.RAMResponse
+import com.example.rickandmortyapi.PresentationDog.List.api.RAMListResponse
 import com.example.rickandmortyapi.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,20 +47,12 @@ class RAMListFragment : Fragment() {
             adapter= this@RAMListFragment.adapter
         }
 
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val RAMApi: RAMApi = retrofit.create(RAMApi::class.java)
-
-        RAMApi.getRAMList().enqueue(object: Callback<RAMResponse> {
-            override fun onFailure(call: Call<RAMResponse>, t: Throwable) {
+        Singletons.ramApi.getRAMList().enqueue(object: Callback<RAMListResponse> {
+            override fun onFailure(call: Call<RAMListResponse>, t: Throwable) {
                 //TODO("Not yet implemented")
             }
 
-            override fun onResponse(call: Call<RAMResponse>, response: Response<RAMResponse>) {
+            override fun onResponse(call: Call<RAMListResponse>, response: Response<RAMListResponse>) {
                 if(response.isSuccessful && response.body() != null){
                     val ramResponse = response.body()!!
                     adapter.updateList(ramResponse.results)
@@ -69,7 +62,10 @@ class RAMListFragment : Fragment() {
         })
     }
 
-    private fun onClickedRAM(RAM: RAM){
-        findNavController().navigate(R.id.navigateToRAMDetailFragment)
+    private fun onClickedRAM(id: Int){
+
+        findNavController().navigate(R.id.navigateToRAMDetailFragment, bundleOf(
+                "ramId" to (id + 1)
+        ))
     }
 }

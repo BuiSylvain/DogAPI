@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapi.R
 
 
-class RAMAdapter(private var dataSet: List<RAM>, var listener: ((RAM) -> Unit)? = null) : RecyclerView.Adapter<RAMAdapter.ViewHolder>() {
+class RAMAdapter(private var dataSet: List<RAM>, var listener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<RAMAdapter.ViewHolder>() {
 
 
     /**
@@ -47,7 +47,7 @@ class RAMAdapter(private var dataSet: List<RAM>, var listener: ((RAM) -> Unit)? 
         val ram = dataSet[position]
         viewHolder.textView.text = ram.name
         viewHolder.itemView.setOnClickListener{
-            listener?.invoke(ram)
+            listener?.invoke(position)
         }
 
     }

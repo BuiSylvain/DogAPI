@@ -20,7 +20,10 @@
         android:name="com.example.rickandmortyapi.PresentationDog.List.detail.RAMDetailFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_ram_detail">
-
+        <argument
+            android:name="ramId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
         <action
             android:id="@+id/navigateToRAMDetailFragment"
             app:destination="@id/RAMListFragment" />
