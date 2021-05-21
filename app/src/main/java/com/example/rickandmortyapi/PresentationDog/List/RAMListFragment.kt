@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapi.PresentationDog.List.api.RAMApi
@@ -23,7 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RAMListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private val adapter = RAMAdapter(listOf())
+
+    private val adapter = RAMAdapter(listOf(), ::onClickedRAM)
     private val layoutManager = LinearLayoutManager(context)
 
     override fun onCreateView(
@@ -38,6 +40,7 @@ class RAMListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
        recyclerView =view.findViewById(R.id.ram_recyclerview)
+
         recyclerView.apply {
             layoutManager = this@RAMListFragment.layoutManager
             adapter= this@RAMListFragment.adapter
@@ -64,8 +67,9 @@ class RAMListFragment : Fragment() {
             }
 
         })
+    }
 
-
-
+    private fun onClickedRAM(RAM: RAM){
+        findNavController().navigate(R.id.navigateToRAMDetailFragment)
     }
 }
