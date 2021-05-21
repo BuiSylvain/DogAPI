@@ -1,4 +1,4 @@
-package com.example.dogapi
+package com.example.rickandmortyapi
 
 import org.junit.Test
 

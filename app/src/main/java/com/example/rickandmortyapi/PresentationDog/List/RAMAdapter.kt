@@ -1,15 +1,15 @@
-package com.example.dogapi.PresentationDog.List
+package com.example.rickandmortyapi.PresentationDog.List
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dogapi.R
+import com.example.rickandmortyapi.R
 
 
-class DogAdapter(private var dataSet: List<Dog>) :
-    RecyclerView.Adapter<DogAdapter.ViewHolder>() {
+class RAMAdapter(private var dataSet: List<RAM>) :
+    RecyclerView.Adapter<RAMAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -20,11 +20,11 @@ class DogAdapter(private var dataSet: List<Dog>) :
 
         init {
             // Define click listener for the ViewHolder's View.
-            textView = view.findViewById(R.id.dog_name)
+            textView = view.findViewById(R.id.ram_name)
         }
     }
 
-    fun updateList(list: List<Dog>){
+    fun updateList(list: List<RAM>){
         dataSet = list
         notifyDataSetChanged()
     }
@@ -33,7 +33,7 @@ class DogAdapter(private var dataSet: List<Dog>) :
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.dog_item, viewGroup, false)
+            .inflate(R.layout.ram_item, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -43,8 +43,8 @@ class DogAdapter(private var dataSet: List<Dog>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        val dog = dataSet[position]
-        viewHolder.textView.text = dog.name
+        val ram = dataSet[position]
+        viewHolder.textView.text = ram.name
 
     }
 

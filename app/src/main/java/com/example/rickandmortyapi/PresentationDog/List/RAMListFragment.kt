@@ -1,4 +1,4 @@
-package com.example.dogapi.PresentationDog.List
+package com.example.rickandmortyapi.PresentationDog.List
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dogapi.PresentationDog.List.api.DogApi
-import com.example.dogapi.PresentationDog.List.api.DogResponse
-import com.example.dogapi.R
+import com.example.rickandmortyapi.PresentationDog.List.api.RAMApi
+import com.example.rickandmortyapi.PresentationDog.List.api.RAMResponse
+import com.example.rickandmortyapi.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,10 +20,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class DogListFragment : Fragment() {
+class RAMListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private val adapter = DogAdapter(listOf())
+    private val adapter = RAMAdapter(listOf())
     private val layoutManager = LinearLayoutManager(context)
 
     override fun onCreateView(
@@ -31,16 +31,16 @@ class DogListFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dog_list, container, false)
+        return inflater.inflate(R.layout.fragment_ram_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       recyclerView =view.findViewById(R.id.dog_recyclerview)
+       recyclerView =view.findViewById(R.id.ram_recyclerview)
         recyclerView.apply {
-            layoutManager = this@DogListFragment.layoutManager
-            adapter= this@DogListFragment.adapter
+            layoutManager = this@RAMListFragment.layoutManager
+            adapter= this@RAMListFragment.adapter
         }
 
 
@@ -49,30 +49,23 @@ class DogListFragment : Fragment() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val dogApi: DogApi = retrofit.create(DogApi::class.java)
+        val RAMApi: RAMApi = retrofit.create(RAMApi::class.java)
 
-        dogApi.getDogList().enqueue(object: Callback<DogResponse> {
-            override fun onFailure(call: Call<DogResponse>, t: Throwable) {
+        RAMApi.getRAMList().enqueue(object: Callback<RAMResponse> {
+            override fun onFailure(call: Call<RAMResponse>, t: Throwable) {
                 //TODO("Not yet implemented")
             }
 
-            override fun onResponse(call: Call<DogResponse>, response: Response<DogResponse>) {
+            override fun onResponse(call: Call<RAMResponse>, response: Response<RAMResponse>) {
                 if(response.isSuccessful && response.body() != null){
-                    val dogResponse = response.body()!!
-                    adapter.updateList(dogResponse.results)
+                    val ramResponse = response.body()!!
+                    adapter.updateList(ramResponse.results)
                 }
             }
 
         })
 
 
-
-        /*val dogList = arrayListOf<Dog>().apply {
-            add(Dog("dog1"))
-            add(Dog("dog2"))
-            add(Dog("dog3"))
-
-        }*/
 
     }
 }
