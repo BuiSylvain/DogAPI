@@ -3,8 +3,10 @@ package com.example.rickandmortyapi.PresentationDog.List
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.rickandmortyapi.R
 
 
@@ -17,10 +19,12 @@ class RAMAdapter(private var dataSet: List<RAM>, var listener: ((Int) -> Unit)? 
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
+        val imageView: ImageView
 
         init {
             // Define click listener for the ViewHolder's View.
             textView = view.findViewById(R.id.ram_name)
+            imageView = view.findViewById(R.id.ram_image)
 
         }
     }
@@ -49,6 +53,12 @@ class RAMAdapter(private var dataSet: List<RAM>, var listener: ((Int) -> Unit)? 
         viewHolder.itemView.setOnClickListener{
             listener?.invoke(position)
         }
+
+        Glide
+                .with(viewHolder.itemView.context)
+                .load("https://rickandmortyapi.com/api/character/avatar/${position+1}.jpeg")
+                .centerCrop()
+                .into(viewHolder.imageView);
 
     }
 
