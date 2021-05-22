@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +28,8 @@ class RAMListFragment : Fragment() {
 
     private val adapter = RAMAdapter(listOf(), ::onClickedRAM)
 
+    private val viewModel : RAMListViewModel by viewModels()
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -43,17 +47,10 @@ class RAMListFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter= this@RAMListFragment.adapter
         }
-        Singletons.ramApi.getRAMList().enqueue(object : Callback<RAMListResponse> {
-            override fun onFailure(call: Call<RAMListResponse>, t: Throwable) {
-                //TODO("Not yet implemented")
-            }
-            override fun onResponse(call: Call<RAMListResponse>, response: Response<RAMListResponse>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val ramResponse = response.body()!!
-                    showList(ramResponse.results)
-                }
-            }
+        viewModel.ramList.observe(viewLifecycleOwner, Observer{list ->
+            adapter.updateList(list)
         })
+
     }
 
 
