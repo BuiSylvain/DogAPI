@@ -10,21 +10,24 @@ import retrofit2.Response
 
 class RAMListViewModel : ViewModel(){
 
-    val ramList : MutableLiveData<List<RAM>> = MutableLiveData()
+    val ramList : MutableLiveData<RAMModel> = MutableLiveData()
 
     init {
         callApi()
     }
 
     private fun callApi() {
+        ramList.value = RAMLoader
         Singletons.ramApi.getRAMList().enqueue(object : Callback<RAMListResponse> {
             override fun onFailure(call: Call<RAMListResponse>, t: Throwable) {
-                //TODO("Not yet implemented")
+                ramList.value = RAMError
             }
             override fun onResponse(call: Call<RAMListResponse>, response: Response<RAMListResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     val ramResponse = response.body()!!
-                    ramList.value = ramResponse.results
+                    ramList.value = RamSuccess(ramResponse.results)
+                } else {
+                    ramList.value = RAMError
                 }
             }
         })

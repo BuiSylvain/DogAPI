@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,9 +28,9 @@ import retrofit2.Response
 class RAMListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-
+    private lateinit var loader: ProgressBar
+    private lateinit var textViewError: TextView
     private val adapter = RAMAdapter(listOf(), ::onClickedRAM)
-
     private val viewModel : RAMListViewModel by viewModels()
 
     override fun onCreateView(
@@ -42,13 +45,20 @@ class RAMListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
        recyclerView =view.findViewById(R.id.ram_recyclerview)
+        loader = view.findViewById(R.id.ram_loader)
+        textViewError = view.findViewById(R.id.ram_error)
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter= this@RAMListFragment.adapter
         }
-        viewModel.ramList.observe(viewLifecycleOwner, Observer{list ->
-            adapter.updateList(list)
+        viewModel.ramList.observe(viewLifecycleOwner, Observer{ramModel ->
+            loader.isVisible = ramModel is RAMLoader
+            textViewError.isVisible = ramModel is RAMError
+
+            if(ramModel is RamSuccess) {
+                adapter.updateList(ramModel.ramList)
+            }
         })
 
     }
