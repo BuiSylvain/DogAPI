@@ -1,4 +1,4 @@
-# DogAPI
+# RickAndMorty
 
 
 Application mobile affichant les informations d'une série "Rick and Morty" en se basent sur l'Api Rest Rick And Morty
